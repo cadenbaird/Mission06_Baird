@@ -7,7 +7,7 @@ using Mission06_Baird.Models;
 
 #nullable disable
 
-namespace Mission06_Baird.Migrations
+namespace Mission07_Baird.Migrations
 {
     [DbContext(typeof(MovieSubmmisionContext))]
     partial class MovieSubmmisionContextModelSnapshot : ModelSnapshot
@@ -23,10 +23,12 @@ namespace Mission06_Baird.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("CategoryId")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool?>("Edited")
@@ -39,17 +41,90 @@ namespace Mission06_Baird.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Rating")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("Year")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.HasKey("MovieSubmissionID");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Submissions");
+                });
+
+            modelBuilder.Entity("Mission07_Baird.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Television"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Horror/Suspence"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryId = 7,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryId = 8,
+                            CategoryName = "VHS"
+                        });
+                });
+
+            modelBuilder.Entity("Mission06_Baird.Models.MovieSubmission", b =>
+                {
+                    b.HasOne("Mission07_Baird.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

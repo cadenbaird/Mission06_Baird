@@ -30,6 +30,9 @@ namespace Mission06_Baird.Controllers
         [HttpGet]
         public IActionResult SubmitMovie()
         {
+            ViewBag.Categories = _context.Categories.
+                ToList();
+
             return View();
         }
 
@@ -38,7 +41,7 @@ namespace Mission06_Baird.Controllers
         public IActionResult SubmitMovie(MovieSubmission response)
         {
             // Add the submitted movie to the database
-            _context.Submissions.Add(response);
+            _context.Submissions.Add(response); //Add record to the database
             _context.SaveChanges();
 
             // Redirect to a confirmation page and pass the submitted movie data
@@ -53,6 +56,31 @@ namespace Mission06_Baird.Controllers
 
             return View(submissions);
         }
+
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+
+            var recordToEdit = _context.Submissions
+                .Single(x => x.MovieSubmissionId == id);
+
+
+            ViewBag.Categories = _context.Categories.
+                   ToList();
+
+            return View("SubmitMovie", recordToEdit);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(MovieSubmission updatedInfo)
+        {
+
+            _context.Update(updatedInfo);
+            _context.SaveChanges();
+
+
+            return RedirectToAction("MovieList");
+        }
     }
 }
-

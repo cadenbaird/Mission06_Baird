@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Mission07_Baird.Models;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mission06_Baird.Models
 {
@@ -6,22 +9,24 @@ namespace Mission06_Baird.Models
     {
         [Key]
         [Required]
-        public int MovieSubmissionID {get; set;}
+        public int MovieSubmissionId { get; set; }
 
         [Required]
-        public string? Category { get; set;}
+        [ForeignKey("CategoryId")]
+        public int? CategoryId { get; set; }
+        public Category Category { get; set; }
 
         [Required]
-        public string? Title { get; set;}
+        public string? Title { get; set; }
 
         [Required]
-        public int? Year { get; set;}
+        public int? Year { get; set; }
 
         [Required]
-        public string? Director { get; set;}
+        public string? Director { get; set; }
 
         [Required]
-        public string? Rating { get; set;}
+        public string? Rating { get; set; }
 
         public bool? Edited { get; set;}
 
