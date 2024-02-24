@@ -44,6 +44,15 @@ namespace Mission06_Baird.Controllers
             // Redirect to a confirmation page and pass the submitted movie data
             return View("Confirmation", response);
         }
+
+        public IActionResult MovieList ()
+        {
+            //Linq
+            var submissions = _context.Submissions
+                .OrderBy(x => x.Title).ToList();
+
+            return View(submissions);
+        }
     }
 }
 
